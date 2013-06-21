@@ -1,0 +1,28 @@
+CSPP51037 Homework 3 
+due: aug 20
+
+
+Port your reversi application to a Swing/XML/servlet architecture as follows:
+
+Client 1 -- Java application using Swing
+
+Client 2 -- Java application using Swing
+
+Server: A deployed http server (provided) which supports java
+        servlets/jsp
+
+The reversi clients should be written as reasonable looking regular
+swing applications (this is a good chance to practice a bit more with
+swing, but we still won't obsess over appearance). Upon launching a
+client the client will establish connection with the server and wait
+for a second client connection before accepting the first move. ALL
+client to server communication will be done using XML over http. You
+can prepare this any way you want -- by hand with or without
+higher-level java libraries, using a SOAP server, etc. The class
+prototype will provide a guide for using Java DOM parsing and the
+URLConnection class. Also, after each move the current state of the
+game will be written to disk on each client in a validated, custom XML
+format.
+
+extra credit: add observers
+

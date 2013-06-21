@@ -1,0 +1,7 @@
+Kyle office hours: 4-6 Sunday 
+
+matrix size = 512
+
+6 neighbors in three dimensions 
+
+start with the small dimensions 

@@ -1,0 +1,2 @@
+You can simply run the Partial Pivoting Matlab Script to see the example that works with partial pivoting but does not work without it.  Also for this function and all others you can simply use the function to test it out if you want for this problem the function is just called gaussElim.  For the other problems there will only be 1 function in each folder except for matrix inverse (which will have a driver as well) and you can just call that function to test it.
+

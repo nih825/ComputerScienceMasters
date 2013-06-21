@@ -1,0 +1,5 @@
+1.6 c++ is called c++ because while it is an improvement to c
+and has added object oriented nature to it you can use it 
+in the same way that you can use c.  If if were called ++c
+it would be fully improved before you could use it and thus
+you would have to use the new features.

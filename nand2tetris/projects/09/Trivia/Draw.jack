@@ -1,0 +1,67 @@
+
+class Draw {
+
+    field int x;
+
+    constructor Draw new(int Ax) {
+        let x=Ax;
+        return this;
+    }
+
+    method void drawHead(){
+        do Screen.clearScreen();
+        do Screen.drawCircle(250,50,30);
+        return;
+    }
+
+    method void draw2(){
+        do Screen.clearScreen();
+        do Screen.drawCircle(250,50,30);
+        do Screen.drawRectangle(215,85,285,180);
+        return;
+    }
+
+    method void draw3(){
+        do Screen.clearScreen();
+        do Screen.drawCircle(250,50,30);
+        do Screen.drawRectangle(215,85,285,180);
+        do Screen.drawRectangle(215,185,245,230);
+        return;
+    }
+
+    method void draw4(){
+        do Screen.clearScreen();
+        do Screen.drawCircle(250,50,30);
+        do Screen.drawRectangle(215,85,285,180);
+        do Screen.drawRectangle(215,185,245,230);
+        do Screen.drawRectangle(255,185,285,230);
+        return;
+    }
+
+    method void draw5(){
+        do Screen.clearScreen();
+        do Screen.drawCircle(250,50,30);
+        do Screen.drawRectangle(215,85,285,180);
+        do Screen.drawRectangle(215,185,245,230);
+        do Screen.drawRectangle(255,185,285,230);
+        do Screen.drawRectangle(290,105,345,125);
+        return;
+    }
+
+    method void draw6(){
+        do Screen.clearScreen();
+        do Screen.drawCircle(250,50,30);
+        do Screen.drawRectangle(215,85,285,180);
+        do Screen.drawRectangle(215,185,245,230);
+        do Screen.drawRectangle(255,185,285,230);
+        do Screen.drawRectangle(290,105,345,125);
+        do Screen.drawRectangle(155,105,210,125);
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

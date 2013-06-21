@@ -1,0 +1,4 @@
+#
+set echo
+cc -c  -I/opt/jdk/default/include -I/opt/jdk/default/include/linux utils.cc
+cc -shared utils.o -I/opt/jdk/default/include -I/opt/jdk/default/include/linux -o libutils.so

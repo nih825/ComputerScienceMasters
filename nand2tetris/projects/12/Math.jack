@@ -1,0 +1,118 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Math.jack
+
+/**
+ * A basic math library.
+ */
+class Math {
+
+    /** Initializes the library. */
+    function void init() {
+        return;
+    }
+
+    /** Returns the absolute value of x. */
+    function int abs(int x) {
+        if(x<0){
+            return -x;
+        }
+        else {
+            return x;
+        }
+
+    }
+
+    /** Returns the product of x and y. */
+    function int multiply(int x, int y) {
+
+        var int sum, shiftedX, mask, posX, posY;
+        let posX=Math.abs(x);
+        let posY=Math.abs(y);
+        let shiftedX=posX;
+        let sum=0;
+        let mask=1;
+        
+        while(~(mask=0)){
+            if(mask&posY){
+                let sum=sum+shiftedX;
+            }
+            let shiftedX=shiftedX+shiftedX;
+            let mask=mask+mask;
+        }
+        if((x>0&y<0)|(x<0&y>0)){
+            return -sum;
+        }
+        else{
+            return sum;
+        }
+    }
+
+    /** Returns the integer part of x/y. */
+    function int divideTemp(int x, int y) {
+        var int q;
+        if(y>x){
+            return 0;
+        }
+        let q=Math.divideTemp(x, y+y);
+        if((x-Math.multiply(q+q,y))<y){
+            return q+q;
+        }
+        else {
+            return q+q+1;
+        }
+
+    }
+
+    function int divide(int x, int y){
+        var int posX, posY, ans;
+        let posX=Math.abs(x);
+        let posY=Math.abs(y);
+        let ans=Math.divideTemp(posX, posY);
+        if((x>0&y<0)|(x<0&y>0)){
+            return -ans;
+        }
+        else{
+            return ans;
+        }
+    }
+
+    /** Returns the integer part of the square root of x. */
+    function int sqrt(int x) {
+        var int y;
+        
+        let y=1;
+        
+        while((~(x<(y*y)))&(y<182)){
+            let y=y+1;
+        }
+
+        
+        return y-1;
+
+    }
+
+    /** Returns the greater number. */
+    function int max(int a, int b) {
+        if(a>b){
+            return a;
+        }
+        else {
+            return b;
+        }
+    }
+
+    /** Returns the smaller number. */
+    function int min(int a, int b) {
+
+        if(a>b){
+            return b;
+        }
+        else{
+            return a;
+        }
+
+
+    }
+}

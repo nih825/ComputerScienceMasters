@@ -1,0 +1,1 @@
+To run this program simply move the compiler.py file to the directory where you would like to compile and type python compiler.py.  It will compile every .jack file in the directory and output a .xml file for each.

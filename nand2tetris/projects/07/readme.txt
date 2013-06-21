@@ -1,0 +1,1 @@
+To run the assembler simply type python vmtranslator.py.  It will then prompt you for the filename (file must be in the same directory) and you can simply enter the name of the file (ex. BasicTest.vm).  Then it will generate a BasicTest.asm file that can be used.  Let me know if you have any questions.

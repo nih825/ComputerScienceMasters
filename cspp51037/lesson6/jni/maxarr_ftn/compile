@@ -1,0 +1,6 @@
+#note, we use straight c to call fortran because
+#c++ overloads and dress up symbols
+set echo 
+gcc -c -xc -I/opt/jdk/jdk1.3/include -I/opt/jdk/jdk1.3/include/linux utils.cc          
+g77 -c fmax.f     
+g77 -shared fmax.o utils.o -I/opt/jdk/jdk1.3/include -I/opt/jdk/jdk1.3/include/linux -o libutils.so   

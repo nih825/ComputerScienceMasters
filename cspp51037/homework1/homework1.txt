@@ -1,0 +1,50 @@
+Homework 1
+cspp51037, Summer 2012
+Monday 4th week
+
+
+You will write two separate versions of a two-player networked game of
+Reversi -- one using sockets and one using rmi. If well written there
+will be considerable code shared, but I expect the two applications to
+be packaged separately. Since you will have 2.5 weeks to do this, I
+expect a reasonable-looking interface. I won't require Swing, but if
+you choose to go text-based then you should put some thought into how
+to make it presentable. The Reversi server only needs to allow two
+people to play at once (ie one game at a time), but I would also like
+any number of "observers" to be able to log in subsequently and watch
+a game. This can be a little tricky to present, so I'll let you make
+the assumption that after 'X' and 'O' have connected, any subsequent
+connections are from "observers". When the game ends, the server
+should announce a winner and in some elegant manner allow for two new
+players to login (after perhaps giving the old ones a chance to replay).
+
+If you don't know the rules to reversi, they are well explained under
+http://games.yahoo.com/games/rules/reversi/reversibasics.html?page=rv
+
+We'll go over this in class in more detail, but this is basically it. You
+are free to make reasonable decisions yourself. I'll be more specific
+about the handful of requirements (error checking, etc.) during the class.
+
+Whatever you do, don't base your code on any existing java reversi source
+that you happen to run into. This is designed for you to work on alone
+with some guidance from your peers. This is very important.
+
+I'll probably put up a reference implementation soon, but don't wait
+for this to get started.
+
+The assignment is worth 10 points total. 
+Here are some suggested milestones in no particular order.
+
+- decide on/write backend object(s) as we discussed in class: 2 point
+- write socket version with scripting interface and no oberservers: 5 points
+- improve interface -- perhaps use swing: 1 point for any decent interface
+- add observers : 1 point
+- rmi version: 2 points
+
+submission: Email the TA (and cc Professor) a zip/tar/tgz/ file that 
+includes both parts of the homework. The file should be named with your
+first initial and last name (e.g. Ali's would be aalkhafaji.zip).
+
+Once you send mail, await a (received, thanks) email. If you don't
+receive one within a couple of hours, then please resend it.
+

@@ -1,0 +1,24 @@
+CSPP58001 Numerical Methods
+Prof. Andrew Siegel
+TA: Kyle Gerard Felker
+Winter '13
+----------------------------------
+Homework #4 
+Due Thursday, March 21st,
+
+Using C, C++, Fortran, Python, or Java:
+
+a. Create a multigrid solver (FMA) for the 2-D time-dependent heat equation
+with source term using the Backward Euler (BE) discretization. 
+That is, solve dT/dt = del^2 T + S(x,y).
+Include separate routines for relaxation, residual, coarse solution,
+interpolation (interpolate + add error), and coarsening. (30 pts)
+
+b. Create an un-preconditioned CG solver for the same problem. (30 pts)
+
+c. Carry out the following benchmark comparisons of CG vs. multi grid vs. SOR 
+and present results. (30 pts).
+[these details will be added shortly]
+
+d. Use a single multigrid cycle as a preconditioned for CG
+and add the results to a comparison in c. (10 pts)

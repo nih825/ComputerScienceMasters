@@ -1,0 +1,45 @@
+
+class Trivia {
+
+    field int x;
+
+    constructor Trivia new(int Ax) {
+        let x=Ax;
+        return this;
+    }
+
+
+    method void run(){
+        var Draw draw;
+        let draw=Draw.new(5);
+
+        do Screen.setColor(true);
+
+        do Keyboard.readLine("Welcome to the body generator!  You will create a robotic human, type any character followed by enter to begin!");  
+
+        do draw.drawHead();
+
+        do Keyboard.readLine("Press any key followed by to continue");
+        do draw.draw2();
+        
+        do Keyboard.readLine("Press any key followed by to continue");
+        do draw.draw3();
+
+        do Keyboard.readLine("Press any key followed by to continue");
+        do draw.draw4();
+
+        do Keyboard.readLine("Press any key followed by to continue");
+        do draw.draw5();
+
+        do Keyboard.readLine("Press any key followed by to continue");
+        do draw.draw6();
+        do Output.printString("Game Over.  The body has been built!");
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

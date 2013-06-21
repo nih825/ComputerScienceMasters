@@ -1,0 +1,86 @@
+CSPP51037
+Homework 2 -- multithreading
+due: Monday July 30
+
+1. (3 points) Write a multithreaded matrix multiply program for arbitrary-size
+square matrices. The program should be able to run using any number of
+threads and should be written so that each thread does a piece of the
+calculation (the goal is speedup on multi-core hardware) before the
+final solution is assembled. The program should be runnable as follows:
+example
+>> java matrix_multiply input_file
+where input_file contains the matrices and and b to be multiplied as
+a11 a12 a13 ...
+a21 a22 a22 ...
+.
+.
+.
+
+b11 b12 b13 ...
+b21 b22 b22 ...
+.
+.
+.
+
+and output goes to stdout.
+
+Include a test suite using JUnit (discussed in next lecture) to verify
+correctness.
+
+2.(7 points) This is intended to be a fun exercise that forces you to confront
+some of the complexities of interacting threads.
+
+You will simulate the behavior of a bunch of particles (balls)
+bouncing around in a square window. There are np total particles
+initially, and at a given time each has a specified velocity,
+position, size, and type. The possible sizes are "small", "medium",
+and "large" and the possible types are "blue" and "red" (these are
+better coded as enums or final ints, strings here are used for
+conceptual explanation).
+
+Given initial velocities and (non-overlapping) positions, the ball
+positions are updated at each iteration of the simulation (pretend
+like you are taking a small step in time so that the new positions are
+given by the velocities times the small time increment. The steps
+should be chosen so that the ball motions look fairly fluid when
+animated, not like they're hopping.
+
+When the balls collide the following rules apply:
+
+- if both balls are of the same type they bounce off of each other
+- if balls are of different type but the same size
+     - 1 new small red ball is created (if both small)
+     - 2 new small red balls are created (if both medium)
+     - 2 new small red balls and 1 blue ball are created (if both large)
+- if balls are of different type and different size, the bigger balls
+    annihilates the smaller one
+
+Also, balls must bounce off of the container walls except for a narrow
+escape window placed wherever you wish.
+
+The particle motions must be computed in thread groups -- i.e. if
+there are np initial particles and nt threads, then, assuming np > nt,
+(which should be the case), there are initially np/nt particles
+"owned" by each thread. I'll explain in class why you might want to do
+it this way in the real world.
+
+The program will be launched in a Swing GUI window. There should be
+buttons to begin the animation, to pause it, and to stop
+it. Additionally, in the same or a separate window the program should
+keep a running tally of particle interactions that is updated at each
+time step -- ie how many of each type of collision has occurred.
+
+Other details, such as how to specify additional input (initial
+particle properties, etc.)  are completely your choice -- nothing
+fancy is required.
+
+Finally, as particles are created and destroyed your threads will tend
+to get out of balance. One of the goals of a successful implementation
+is to keep each thread roughly equally busy throughout the course of
+the animation. You will need to document this thread balance in your
+status window -- how many particles are assigned to each thread at the
+current iteration. Successfully reblancing is one of the trickier
+parts of the assignment and essential to receive full credit.
+
+Finally, for an extra credit point add the capability to introduce a
+new particle of arbitrary type during the course of the simulation.

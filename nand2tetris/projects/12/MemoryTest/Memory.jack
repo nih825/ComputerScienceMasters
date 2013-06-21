@@ -1,0 +1,74 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * Memory operations library.
+ */ 
+class Memory {
+    static Array freeList;
+
+    /** Initializes memory parameters. */
+    function void init() {
+        let freeList=2048;
+        let freeList[0]=16394-2048-2;
+        let freeList[1]=-1;
+        return;
+    }
+
+    /** Returns the value of the main memory at the given address. */
+    function int peek(int address) {
+        var Array addr;
+        let addr=0;
+        return addr[address];
+    }
+
+    /** Sets the value of the main memory at this address
+     *  to the given value. */
+    function void poke(int address, int value) {
+        var Array addr;
+        let addr=0;
+        let addr[address]=value;
+        return;
+    }
+
+    /** finds and allocates from the heap a memory block of the 
+     *  specified size and returns a reference to its base address. */
+    function int alloc(int size) {
+        var Array cur, ptr;
+        let cur= freeList;
+        while(~(cur[1]=-1 & cur[0]>size)){
+            let cur=cur[1];
+        }
+
+        if(size<cur[0]){            
+            if(cur[0]<3){
+                let ptr=cur;
+                let size=cur[0];
+            }
+            else {
+                let cur[0]=cur[0]-size-1;
+                let ptr=cur+cur[0];
+            }
+            let ptr[-1]=size;
+            return ptr;
+        }
+        else{
+            return -1;
+        }
+        
+    }
+
+    /** De-allocates the given object and frees its space. */
+    function void deAlloc(int object) {
+        var Array newFree;
+        var int newSize;
+        let newSize=object[-1]+1;
+        let object[-1]=newSize;
+        let object[0]=freeList;
+        let freeList=object-1;
+        return;
+
+    }    
+}

@@ -1,0 +1,105 @@
+\documentclass[11pt]{article}
+\usepackage{ulem}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\begin{document}
+\title{Lesson 5} 
+\author{CSPP58001 Numerical Methods: \\ TA: Kyle Gerard Felker}
+\date{\today}
+\maketitle
+
+\section{Today's topics}
+\begin{enumerate}
+\item Demonstrate that spectral radius of A controls the stability of FTCS, BECS, Crank, etc.
+\item Calculating growth rates (stability) for arbitrary discretizations
+\end{enumerate}
+
+\subsection{Spectral radius and stability part one}
+Using our formulas for 1D Forward Time and Backward Euler methods of the heat equation derived in previous lectures, we have two matrix equations
+{\bf FTCS}
+$$u^{n+1} = A_{FE}u^n$$
+{\bf BECS}
+$$u^{n+1} = A_{BE}^{-1}u^n$$
+where 
+$$ A_{FE} = \begin{bmatrix}
+1-2c & c & 0 &  \ldots \\
+c & 1-2c & c & 0 & \ldots \\
+0 & c & 1-2c & c & 0 & \ldots \\
+\vdots & \ldots & \ddots \\
+\end{bmatrix}, A_{BE} = \begin{bmatrix}
+2c + 1 & -c & 0 &  \ldots \\
+-c & 2c+1 & -c & 0 & \ldots \\
+0 & -c & 2c+1 & -c & 0 & \ldots \\
+\vdots & \ldots & \ddots \\
+\end{bmatrix} $$
+and c is the usual $\frac{\alpha \Delta t}{\Delta x^2}$. To understand the stability conditions introduced previously, we examine the spectral radii of both matrices $A_{FE}$ and $A_{BE}^{-1}$. 
+\fbox{{\bf Definition.}} The {\bf spectral radius} of a matrix $A \colon \mathbb{R}^n \to \mathbb{R}^n$ (square matrix) is 
+$$ \rho(A) = \text{max}_i(|\lambda_i|) $$
+where $\lambda_i$ are the eigenvalues of the matrix. For the matrices above, the MATLAB demonstration in class shows that the spectral radius of the Backward Euler method is always very close to 1, while the spectral radius of the Forward Euler method depends on the value of c. A clever guess shows that if $c > \frac{1}{2}$, the spectral radius of the FE matrix diverges from 1. This explains the unconditional vs. conditional stability differences of the methods. 
+
+\subsection{Spectral radius and stability part two}
+Now we want to investigate the relationship between stability and spectral radii for an arbitrary discretization.
+
+\emph{Continuous equations}
+
+Take the diffusive linear equation
+\begin{equation}
+\frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2}
+\end{equation}
+with some initial and boundary conditions (u(0,t) = 0, u(L,t)=0, u(x,0) = f(x)). Look for separable solutions 
+$$ u(x,t) = F(x)G(t) $$ 
+Even though most u(x,t) cannot be written like this, luckily the separable solutions form a \emph{complete} basis of our function space, meaning any solution can be written as a combination of these solutions. 
+Substituting this relation in the above equation and separating by variables give us
+$$ \frac{G'}{\alpha G} = \frac{F''}{F} $$ where the prime represents the now ordinary derivatives. Since both sides are equal for all x,t, they must be equal to a constant, let's say $-\lambda$ (we conveniently know that only negative constants give us nontrivial solutions). Or, 
+\begin{eqnarray}
+G' = -\lambda \alpha G  \\
+F'' + \lambda F = 0
+\end{eqnarray}
+We have solved the first equation (exponential) in the previous notes. The general solution for the second equation is
+\begin{equation}
+F(x) = B\text{sin}(\sqrt{\lambda} x) + C\text{cos}(\sqrt{\lambda} x).
+\end{equation}
+Use our spatial boundary conditions to find the particular solution.
+$$ F(0) = 0\Rightarrow C = 0 $$
+$$ F(L) = 0 \Rightarrow B\text{sin}(\sqrt{\lambda} x) = 0 \Rightarrow \sqrt{\lambda} L = n\pi$$
+where $n \in \mathbb{Z}$. Since each sinusoid term satisfies the F(x) equation, so must their sum
+$$ F(x) = \sum_{n=1}^{\infty} b_n \text{sin}(\frac{n\pi}{L}x) $$
+For completeness, the general solution is a sum of all possible individual solutions (all n's). 
+
+$$ u(x,t) = \sum_{n=1}^{\infty} b_n \text{sin}(\frac{n\pi}{L}x)e^{-\frac{n^2\pi^2\alpha t}{L^2}}$$
+The coefficient of each ith term is determined by the (unused) boundary condition. To solve for these terms, we exploit the orthogonality of the sinusoids using Fourier's trick. At $t=0$,
+$$ u(x,0) = f(x) = b_1\text{sin}(\frac{\pi}{L}x)e^0 + b_2\text{sin}(\frac{2\pi}{L}x) + \ldots $$
+Multiply both sides by $\text{sin}(\frac{m\pi}{L}x)$ and integrate from 0 to L for some m. The only term that will survive is the one where n=m. Do the calculus yourself and you end up with
+$$ b_m = \frac{2}{L}\int_0^L f(x)\text{sin}(\frac{m\pi x}{L}) dx $$
+
+For the diffusion equation, high frequency modes (high n) are dissipated quickly. This lesson is used in the development of the multigrid method, to be discussed in a later lecture.
+
+\subsection{Calculating growth rates}
+Let's return to the time-dependent part of our separable solution,
+$$ G(t) = e^{-\frac{n^2\pi^2\alpha t}{L^2}} $$
+This function represents the growth rate of our solution. We can see for this case, the solution monotonically decreases for all n. This is how we can find our stability features of the systems. Now, follow a similar approach for FTCS 1D.
+
+Consider the discrete functions
+\begin{equation}
+e^{ikj\Delta x} = \text{cos}(kj\Delta x) + i\text{sin}(kj\Delta x)
+\end{equation}
+Note that these $e^{ikj\Delta x}$ are the discrete spatial eigenfunctions of the 1D heat equation.  
+
+Assume \fbox{$u_j^n = G^ne^{ikj\Delta x}$}. This is a ``good guess" for what a heat equation solution. We only need to look at this one $k$-term of the Fourier expansion since the final stability condition is general, i.e. for all $k$.  This is possible because the expansion is linear. Substitution into FTCS formula gives us:
+\begin{eqnarray}
+\frac{G^{n+1}e^{ikj\Delta x} - G^ne^{ikj\Delta x} }{\Delta t} = \frac{\alpha G^n}{\Delta x^2}  [e^{ik(j+1)\Delta x} -2e^{ikj\Delta x}  + e^{ik(j-1)\Delta x} ] \\
+G^{n+1} = G^n(1 + \frac{\alpha \Delta t}{\Delta x^2}  (e^{ik\Delta x} -2  + e^{-ik\Delta x} ))
+\end{eqnarray}
+We're looking for the ratio of the growth rate at each time step. Apply Euler's identity, do some math, and:
+$$ \frac{G^{n+1}}{G^n} = 1+C(2\text{cos}(k\Delta x) - 2) $$
+The worst case of $k$ is when the cosine factor is $-1$, and the growth becomes $|1-4C| \leq 1$. Solving for our condition on C, we get $ -1 \leq 1-4C \leq 1$ or $-2 \leq -4C \leq 0$. Finally, \fbox{$ 0 < C\leq \frac{1}{2}$}
+\\
+\\
+\\
+\\
+ITERATIVE METHODS NEXT TIME!!!!!!!!!!!
+
+\end{document}

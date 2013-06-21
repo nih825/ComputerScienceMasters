@@ -1,0 +1,46 @@
+
+0. Create an account via tomcat manager front end at:
+https://tomcat-cspp.cs.uchicago.edu/tomcat-manager/man/manager.cgi
+
+Once this is done the following steps should allow you to deploy
+an application
+1. create dir under /stage/tomcat-cspp/<your_username> (e.g. call it HOME_DIR)
+2. add servlet source code to ${HOME_DIR}/WEB-INF/classes
+3. compile with javac -target 1.5 -cp .:/opt/condor/7.4.0/lib/gt4/lib/servlet.jar <name>.java
+4. add .html file to this directory with action triggering servlet as e.g.:
+
+<html>
+<head>
+<title>Hello World</title>
+</head>
+<body>
+blah blah
+<form METHOD=GET ACTION="HelloWorldExample"> 
+<input TYPE="submit">
+</form>
+</body>
+</html>
+
+
+4. add some lines to ./WEB-inf/web.xml so that tomcat can locate servlet
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+    <servlet>
+        <servlet-name>HelloWorldExample</servlet-name>
+        <servlet-class>HelloWorldExample</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloWorldExample</servlet-name>
+        <url-pattern>/HelloWorldExample</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+5. be sure to reload on main page: 
+https://tomcat-cspp.cs.uchicago.edu/tomcat-manager/man/manager.cgi
+
+to load first time do
+Directory containing WEB-INF: /asiegel/MyFirstServlet
+Context: siegel_test

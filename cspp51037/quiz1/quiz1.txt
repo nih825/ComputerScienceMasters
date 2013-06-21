@@ -1,0 +1,51 @@
+Quiz 1 (10 pts)
+
+Referring to the BuySell.java program, carry out the following
+changes and submit the modified program as instructed in class.
+Note that all changes start from the existing base code and 
+can be added incrementally. When one change supersedes another
+I'll explicitly ask you to comment out the appropriate code
+section. In this manner you can get significant partial credit
+while not needing to submit multiple versions.
+
+When finished email a single program file BuySell.java as an attachment
+asiegel@cs.uchicago.edu.
+
+1. (1 pt)  write a short (several sentence) comment at the beginning
+of the program explaining (generally) what the program does.
+/*
+	this program simulates the ...
+*/
+
+
+2. (1 pt) Modify that code so that the two threads "implement
+Runnable" rather than "extends Thread". This of course includes
+changing how the thread objects are instantiated as well.
+
+3. (1 pt) Synchronize the buy() and sell methods to ensure that two
+different threads cannot execute them at the same time.
+
+4. (1 pt) Ensure the inventory of the Exchange cannot go negative by
+including a check with an if statement in the buy() method. If this
+condition occurs (ie if a Buyer calls buy() such that the inventory
+would have gone negative), have the buy() method throw a
+NoItemsRemainingException, with NoItemsRemainingException
+encapsulating the number of items that were attempted to be purchased
+and how many are remaining (ie call super(message) in constructor of
+the exception).
+
+5. (2 pts) Comment out the version of buy() developed in (4) (ie the one that
+throws the Exception) and improve it with a new buy() method that waits
+until enough items are available and then continues with the purchase.
+This will require modifying sell as well. Note that if you put a try/catch
+block in your Buyer run() method that you should remove it as well.
+
+6. (2 pts) Similarly, modify the Exchange to have a maximum number of
+items it can store. If numItems + size exceeds this number then wait
+until enough items are sold until selling can proceed.
+
+7. (1 pt) Add a timeout thread that kills the program after 10 seconds.
+
+8. (1 pt) Add capability *within the Exchange class* to detect any
+Buyer that attempts more than one "illegal purchase" (ie one that
+would have made the inventory go negative). Exchange should throw an Exception when this buyer attempts to buy again. 

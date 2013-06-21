@@ -1,0 +1,60 @@
+CSPP58001 Numerical Methods
+Prof. Andrew Siegel
+TA: Kyle Gerard Felker
+Winter '13
+----------------------------------
+Homework #2
+Due Wed, February 6
+
+The next series of homework assignments will focus on the continuing development of a large-scale
+ code development project rather than a collection of smaller assignments. 
+
+Your first milestone is to develop a 3D heat diffusion solver in a non-interpreted language 
+(presumably C, C++, or Fortran). The code requirements will emphasize the numerical techniques 
+learned in lecture along with the practical goals of the CSPP program. 
+
+
+Overall goal: Create a program which can solve the heat diffusion equation in 3 dimensions. 
+
+Steps/milestones:
+
+First, have your code setup an arbitrary Cartesian domain. Do not assume 
+that the physical domain is of equal size in each dimension (i.e. l_x != l_y != l_z) 
+and do not assume that the partitioning  is symmetric (i.e. the code does not require that dx != dy != dz).
+Choose a reasonable diffusivity constant and time step. 
+Use good programming etiquette (good comments, clean program structure, makefile, include a readme file). (10 pts)
+
+Implement the following two schemes for discretizing the equation:
+ - Forward-Time Central-Space (20 pts)
+ - Crank-Nicolson Method (20 pts) (see NR, chapter 18)
+ - OPTIONAL: Alternating Direction Implicit (ADI) Crank-Nicolson Method. This is the "operator splitting" method mentioned in lecture. The 3D system is tridiagonal. (Extra credit 20 pts)
+
+How you solve the resulting linear system is up to you at this point (Gaussian elimination, Gauss Jordan, magic, etc.).
+You do not have to use the most efficient method, but it is recommended to meet the performance
+criteria that you not store the  entire matrix with all its zeroes. 
+
+*Your code must have the following features built in:
+ - A function that sets the initial condition (Gaussian+noise) (10 pts)
+ - Ability to specify the following boundary conditions. (10 pts)
+	- Dirichlet (constant) conditions
+	- Periodic boundary conditions. (This is as though the domain "wraps" around like a cylinder.
+	The boundary conditions are equal to the temperature on the opposite side.)
+ - An arbitrary time-independent "source term" added to the right hand side of the equation
+   (ie specified S(i,j,k), where S is given)
+It is recommended to first prototype these boundary conditions in the 1D problem in MATLAB to get a 
+feel for how they behave. 
+
+Output (graphics, binary, text) is not required for this benchmark, but implementing it is 
+recommended to ensure proper functioning of your code. One way of doing this is to print the 
+temperature at a certain slice "z-height" to a formatted text file every n number of timesteps, 
+separating the time step temperature data by new lines. Then, plot the data in MATLAB or your 
+favorite graphics utility.
+
+--------------------------
+Analysis
+--------------------------
+Include timers in your code for evaluating total runtime performance. Submit a plot of your code's
+ "problem size" vs. "runtime per algorithmic timestep" for each of the implemented numerical methods. 
+ When evaluating the performance, use boundary conditions equal to 0 and a cubic domain with dx=dy=dz. (20 pts)
+
+

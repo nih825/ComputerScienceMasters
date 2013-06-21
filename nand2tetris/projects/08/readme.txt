@@ -1,0 +1,3 @@
+Included in every folder is the vmtranslator2.py file.  To run this simply type python vmtranslator2.py.  It will then keep prompting for filenames.  Enter the filenames of all vm files and enter the word "done" when you are done with all your filenames.  Then it will prompt you for a output file and name it whatever output you want to call it and this should have a .asm extension.  This file has initialization code in it so the tests will work only on the last 2 (FibonacciElement,Statics Test) test codes.  If you would like me to send you a previous version of the file that will work on the first 4 test programs just let me know and I can.
+
+Nihar Bhupalam

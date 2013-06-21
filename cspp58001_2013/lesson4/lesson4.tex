@@ -1,0 +1,189 @@
+\documentclass[11pt]{article}
+\usepackage{ulem}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+\begin{document}
+\title{Lesson 4} 
+\author{CSPP58001 Numerical Methods: \\ TA: Kyle Gerard Felker}
+\date{\today}
+\maketitle
+
+
+\section{Stability}
+To this point we've studied both {\em explicit} and {\em implicit} discretizations of our model equation,  the simple linear for of the heat equation
+with constant diffusivity. We observed that our choice of explicit discretization technique -- the so-called Forward Time Center Space (FTCS) -- was only stable for the choice of
+$$C \equiv \frac{\alpha \Delta t}{\Delta x^2} \le \frac{1}{2n}$$ where $n=1,2,3$ is the dimensionality of the problem. We saw the effect of instability when the solution
+"blew up" for values just beyond this threshold. For our implicit methods -- backward Euler and Crank Nicholson -- there was apparently no limit on the size of C to
+yield a stable solution (accuracy is another issue, something which will be clarified shortly). Now we will study the theoretical basis for this phenomenon.
+
+\subsection{Ordinary Differential Equation}
+
+We begin by looking at  a simple system -- a simple linear first order ordinary differential equation (one independent variable) with constant coefficients:
+\begin{equation}
+\frac{du}{dt} = -\alpha u
+\end{equation}
+where $\alpha$ is a positive constant (as with the heat equation -- negative diffusivity is non-physical) and $u=u(t)$. If we denote the Initial condition is $u(0)=u_0$, then it
+should be clear that an analytical solution exists in this case, which is \fbox{ $u(t) = u_0e^{-\alpha t}$.} Note that since $\alpha$ is positive the solution goes to zero as $t \rightarrow \infty$.
+
+Now we will approximate the solution in the same manner as the full heat equation -- by discretizing the system (here only in time since there is no spatial coordinate). 
+
+{\bf Forward Euler}
+
+\begin{eqnarray}
+\frac{u_{n+1} - u_n}{\Delta t} = -\alpha u_n \nonumber \\
+u_{n+1} = (1-\alpha \Delta t)u_n
+\end{eqnarray}
+
+It is clear that at each time step we multiply the estimated solution at the previous time step by the quantity $1-\alpha \Delta t$, so that at some arbitrary time step $k$ in the future, the following recursion relation yields the solution:
+\begin{equation}
+u_k = (1 -\alpha \Delta t)^k u_0
+\end{equation}
+We are always interested in two things: consistency and stability of the approximation. In this case, the stability condition is clear: $ |1-\alpha \Delta t | < 1 $. Otherwise evaluating the kith power would yield a solution that rapidly grew in time. we know from the analytical solution that the correct behavior is to tend to zero, and thus that a solution that blows up is a numerical artifact due to too large a choice of $\Delta t$. 
+
+Now we discretize using an implicit method -- the simplest one (though not the most accurate) is Backward Euler, where the derivative is evaluated at the future time step:
+\\{\bf Backward Euler}
+
+\begin{eqnarray}
+\frac{u_{n+1} - u_n}{\Delta t} = - \alpha u_{n+1}  \nonumber \\
+u_{n+1} + \alpha \Delta t u_{n+1} = u_n \nonumber \\
+u_k = (1 + \alpha \Delta t)^{-k} u_0 \rightarrow 0 \text{   $\forall$   } \alpha \Delta t
+\end{eqnarray}
+It should be clear that this formulation is unconditionally stable. That is, no matter how large $\Delta t$, the solution is correctly driven to its true steady state value.
+
+\subsection{ 1-D Heat Equation Forward Euler}
+Our solution at each timestep n at position j is given by
+$$u_{n+1,j} = u_{n,j} + \frac{\alpha \Delta t}{\Delta x^2} [u_{n,j+1} - 2u_{n,j} + u_{n,j-1} ]$$
+Let's rewrite this in matrix form: $u_{n+1} = Au_n$ where 
+\begin{equation}
+A = \begin{bmatrix}
+1-2c & c & 0 &  \ldots \\
+c & 1-2c & c & 0 & \ldots \\
+0 & c & 1-2c & c & 0 & \ldots \\
+\vdots & \ldots & \ddots \\
+\end{bmatrix}
+\end{equation}
+and c is $\alpha \Delta t \Delta x^{-2}$, a constant. Now, we can see that \fbox{ $u_k =A^k u_0$} as in the scalar ODE. Furthering this analogy, how can we determine what the stability condition is? What does it mean for a matrix to be ``less than one'' so that the solution stays bounded? In other words, what determines if the k applications of the matrix to the solution
+drives the solution to the correct steady state or forces it to diverge (go to infinity)\footnote{Note that we can derive an analytical solution in the 2d case as well and show that the solution
+in steady state should go to zero for homogeneous boundary conditions}. To understand this requires a more general discussion of the concept of {\em eigenvalues} and {\em eigenvectors} of a matrix. After we understand eigenvalues and eigenvectors, in next week's lecture we will use them to analyze the stability of our heat equation example.
+
+\section{Eigenvalues and Eigenvectors}
+Consider a square matrix A and a vector $\vec{x}$. Think of A as an operator $A \colon \mathbb{R}^n \to \mathbb{R}^n$, where $\mathbb{R}^{n}$ is a Euclidean vector space. The matrix A is a discrete operator which changes vectors in the vector space. Suppose we find a very special vector such that for some value of $\lambda \neq  0$ 
+\begin{equation}
+A\vec{x} = \lambda \vec{x}
+\label{eqn:eig}
+\end{equation}
+where $\lambda \in \mathbb{R}$ (i.e. is a scalar). The set of these such vectors are the \emph{eigenvectors} of A. The scalars which are associated with them are their corresponding \emph{eigenvalues}. Geometrically, the eigenvalues represent the amount which the vector is stretched or contracted by A (but $\vec{x}$ is not rotated, by definition!). For a square $n \times n$ matrix, there will be n eigenvalues and eigenvectors. The eigenvalues may be repeated. Note that eigenvalues can be real or imaginary, but this is a distinction we will not worry about until later.
+
+\subsection{Determining the eigenvalues}
+
+{\bf Analytically}
+For small matrices it is possible to compute the eigenvalues/vectors analytically  (for more realistic sized systems we will develop numerical techniques, but studying
+the analytical method gives insight into eigenvector properties). Note that Equation \ref{eqn:eig} can be rearranged to give 
+$$ (A- I\lambda)\vec{x} = 0 $$
+This is equivalent to saying that the matrix $A-I\lambda$ is singular, or det($A-I\lambda$) = 0, since the transformation takes a nonzero vector into the null space, and information is ``lost'', i.e. there is no way to invert the transformation. (See chapter 4 in Strang). We can solve the nth order polynomial from the determinant relation to find the eigenvalues.
+
+\fbox{Example: Find the eigenvalues and eigenvectors of A}
+$$ A = \begin{bmatrix}
+4 & -5 \\
+2 & -3 \\
+\end{bmatrix}
+$$
+
+Using the identity above,
+$$ A- I\lambda = \begin{bmatrix}
+4- \lambda & -5 \\
+2 & -3-\lambda 
+\end{bmatrix}
+$$
+det($A-I\lambda$) = $\lambda^2 - \lambda -2 = 0$ The roots of this equation are $\lambda = -1,2$. We substitute the eigenvalues back into the equation separately to find their eigenvectors. We get the vectors $\vec{x} = (1,1)$ and (5 ,2), respectively. 
+\\
+{\bf Properties of eigenvalues}
+\begin{itemize}
+\item $\sum \lambda_i$ = trace(A), where the trace of A is the sum of the diagonal elements
+\item $\lambda_1 \times \ldots \lambda_i$ = det(A)
+\item The eigenvalues of a triangular matrix are the diagonal elements
+\end{itemize}
+
+\subsection{Eigendecomposition}
+Let A be an $n \times n$ matrix. Define S as the special matrix whose columns are the n eigenvectors of A.
+\begin{equation}
+S = \begin{bmatrix}
+\vec{x_1} & \vec{x_2} &  \ldots & \vec{x_n} \\
+\vdots & \ddots & \ldots &\vdots \\
+\vdots & \vdots & \ddots &\vdots \\
+\vdots & \vdots & \vdots &\vdots \\
+\end{bmatrix}
+\end{equation}
+What is AS?
+\begin{equation}
+AS = \begin{bmatrix}
+A\vec{x_1} & A\vec{x_2} & \ldots & A\vec{x_n} \\
+\vdots & \ddots & \ldots &\vdots \\
+\vdots & \vdots & \ddots &\vdots \\
+\vdots & \vdots & \vdots &\vdots \\
+\end{bmatrix}
+\end{equation}
+Since $\vec{x_i}$ are eigenvectors with corresponding eigenvectors $\lambda_i$,
+\begin{equation}
+AS = \begin{bmatrix}
+\vec{x_1} & \vec{x_2} &  \ldots & \vec{x_n} \\
+\vdots & \ddots & \ldots &\vdots \\
+\vdots & \vdots & \ddots &\vdots \\
+\vdots & \vdots & \ldots &\vdots \\
+\end{bmatrix}
+ \begin{bmatrix}
+\lambda_1 & 0 & 0 & \ldots \\
+0 & \lambda_2 & 0 & \ldots \\
+0 & \vdots & \ddots & \ldots  \\
+\vdots & \vdots & \vdots & \vdots 
+\end{bmatrix}
+= S\Lambda
+\end{equation}
+Or alternatively, $A = S\Lambda S^{-1}$. This is incredibly useful for computing powers of A. For example, consider 
+$$A^2 =S\Lambda S^{-1}S\Lambda S^{-1}$$
+Since matrix multiplication is associative and a matrix times its inverse is the identity matrix, we have
+\begin{equation}
+A^k = S \Lambda^k S^{-1}
+\end{equation}
+
+Returning back to our original problem with the heat equation, we now know how to easily compute 
+$$ u_k = S\Lambda^k S^{-1} u_0 $$
+The stability condition can be proved to be related to the \emph{spectral radius}, defined as
+\begin{equation}
+\rho(A) = \text{  max($|\lambda_i |$)  } < 1 
+\end{equation}
+
+\section{Going Backwards: Connecting discrete to continuous}
+\fbox{Example: compound interest}
+Let 6 \% be the annual interest of a loan, $P_0$ the principal. How the interest accumulates depends on the period of compounding. Let the interest first compound once annually, for 5 years.
+$$ P_k = (1.06)^k P_0 $$ 
+$$ P_5 = (1.06)^5 (1000)  = \$1338 $$
+Now let the interest compound monthly
+$$ P_{60} = (1.0 + \frac{.06}{12})^{60} 1000 = \$ 1349 $$
+Finally, let the interest compound daily
+$$ P_{5\times 365} = (1.0 + \frac{.06}{365})^{5\times 365} 1000 = \$ 1349.83 $$
+Observe the trend
+\begin{equation}
+\lim_{\Delta t \rightarrow 0} \frac{P_{k+1} - P_k}{\Delta t} = \frac{dP}{dt} = 0.06P
+\end{equation}
+We already know how to solve this ODE; $P(t) = P_0e^{0.06t}$. Now let's try this process with a matrix rather than a scalar.
+
+\fbox{Example: Fibonacci Sequence (Strang example)}
+
+$F = \lbrace 0,1,1,2,3,5,8 \ldots \rbrace$ is the Fibonacci Sequence. What if we want to know $F_{1000}$? The general form of the sequence is $F_{k+2} = F_{k+1} + F_{k}$.  In matrix form,
+\begin{eqnarray}
+u_k = \begin{bmatrix}
+F_{k+l} \\ F{k}
+\end{bmatrix}
+\\
+u_{k+1} = \begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+u_k
+\end{eqnarray}
+Now, try to use eigendecomposition to find large iterations. 
+\end{document}

@@ -1,0 +1,18 @@
+371  561  812 1060 1193 1210 1218 1262
+627  1118 1496 1808   ..   ..   ..   ..
+956  1597   ..   ..   ..   ..   ..   ..
+1262 2122   ..   ..   ..   ..   ..   ..
+1568  ..    ..   ..   ..   ..   ..   ..
+1858  ..    ..   ..   ..   ..   ..   ..
+2163  ..    ..   ..   ..   ..   ..   ..
+2275  ..    ..   ..   ..   ..   ..   ..
+
+Xeon 8 core
+large H-M, nuclide grid, intel compiler
+all combinations that multiply <= max_threads
+          increasing fine-grained -->
+
+          increasing coarse-grained      
+                     |
+                     |
+                     V

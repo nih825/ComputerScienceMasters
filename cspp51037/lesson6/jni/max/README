@@ -1,0 +1,9 @@
+This JNI test applications was produced as follows:
+1. Write Utils.java with native method declarations
+2. Compile
+3. javah Utils to produce Utils.h
+4. include "Utils.h" in C-code
+5. Implement header function in Utils.h
+6. build as .so with commands in compile
+7. set LD_LIBRARY_PATH as system variable
+8. java Utils

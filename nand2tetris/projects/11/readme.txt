@@ -1,0 +1,1 @@
+To run the compiler simply place the compiler2.py file in the directory you wish to compile and type python compiler2.py.  It will compile every .jack file into a .vm file.  THIS IS PROJECT 11 I ACCIDENTALLY SUBMITTED PROJECT 10 IN THE PROJECT 11 FOLDER SO PLEASE LOOK AT PROJECT 11 FOR MY PROJECT 10 WORK.

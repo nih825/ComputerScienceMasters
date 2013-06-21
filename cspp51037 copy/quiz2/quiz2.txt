@@ -1,0 +1,55 @@
+CSPP51037
+quiz 2
+1 hour
+
+In this quiz you will compare the performance of a native C method 
+with an identical one implemented in java. The particular method is
+a simple jacobi poisson solver. To complete the quiz you do not
+need to know anything about jacobian solvers or, for the most part,
+the C language. 
+
+Referring to the source code jacobian3d.c included in this directory: 
+
+
+1. Setup a java class that invokes j3d as a native method.  Name your
+java class SimUtils.java and declare the native j3d method as a static
+method in this class. For consistency, assume your shared object file
+is named libjacobi.so so that your loadLibary is called as
+System.loadLibrary("jacobi"). Ensure that you can compile your java code.
+Note that you have not carried out the other JNI steps at this point and
+the code will not run. This is just step 1. (1 point)
+
+2. Build on (1) by using javah to create the C header file and copying
+the header file to the C code in the regular way.  Do not edit the j3d
+function directly -- rather, write a C wrapper in the same file that
+maps the data structures from the wrapper and then calls the native
+code from the wrapper. Make sure you can compile the shared object in the
+regular way and include the compilation commands you used as a comment
+in the .java file. You do not have to execute the code at this point
+(2 points).
+
+3. For this question you need to setup a call to j3d from within the
+SimUtils main method to check that you are getting the correct
+answer. To do this setup your code so that nx,ny, and nz are command
+line input to the java driver code.  Using nx=1, ny=1, nz=1 and with f
+initialized to all ones, what is the resulting value of fnew[13] (fnew[1][1][1] in 3d indexing)
+using a value n_iter = 1?  (2 points)
+
+4. Write an identical java implementation of the j3d function (call it
+jacobi3d).  You can basically just cut and paste since C and java
+syntax are identical at this level. Test the code as in problem 2. (1 point)
+
+5. Using System.currenTimeMillis() add timers around the C and java codes and present
+timings for the following parameters:
+n_iter = 10 nx=10 ny=10 nz=10
+n_iter = 10 nx=100 ny=100 nz=100
+n_iter = 10 nx=200 ny=200 nz=200
+n_iter = 100 nx=200 ny=200 nz=200 (3 points)
+
+6. Redo (4) using the -O3 flag when compiling C? is there a
+significant difference? (1 point)
+
+extra credit: execute the native code as a shell command from java
+using Runtime.exec and compare the timings with (4). Be sure to
+include the time to marshal the return data from the input stream. (2
+pts)

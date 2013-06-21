@@ -1,0 +1,99 @@
+Due Monday, Jan. 21 5PM
+CSPP 58001
+Linear Systems/Floating Point/Matlab
+
+Linear Systems
+1. The process of Gaussian elimination was described as a sequence of
+steps to get from a beginning augmented matrix [A b] to an upper
+triangular system [U b']. This sequence of steps defines a linear
+transformation and thus can be represented as a matrix operation (or
+equivalently a sequence of matrix operations, since matrix
+multiplication is associative). Derive the matrix that represents
+Gaussian elimination for an general 3x3 matrix (i.e. do _not_ chose specific
+values for your matrix but rather generic entries a_11 a_12, …).
+
+2. Use Matlab to graphically represent the "column" view of matrix
+multiplication for the simple 2x2 example in the Lesson 1 notes.  That
+is, use Matlab to draw the two column vectors and their scaled sum,
+showing that this sum equals the solution. Submit just the graphic --
+no code is necessary. 
+
+3. Complete the gaussian elimination code that we started in class --
+include row exchanges (even when pivots are non-zero, to bring largest
+value in column to pivot row), check for correctness of input, make a
+clean interface, etc. This code will be used frequently in other parts
+of the course. Write a driver for a simple example A that shows the
+error induced by not doing partial pivoting even when pivots are all
+nonzero (you are free to choose an A that demonstrates this most
+clearly).
+››
+4. Redo a version of (3) with full pivoting. A description of full pivoting will included
+in the lecture 2 notes, but the basic idea is to include column as well as row
+exchanges, which requires keeping track of the permutations so that the final solution
+can be unscrambled.
+
+5. Derive an approximate expression for the number of floating point
+operations required to do gaussian elimination + back-substitution for
+a matrix of size n x n. Show the details of your calculation.
+
+6. Write a program to compute the inverse of a square matrix using
+Gauss-Jordan elimination on the identity matrix (as described in the
+course notes). Include a simple test driver.
+
+
+Floating Point
+
+For each of the following, show all of your work. You do not
+have to write any code.
+
+Assuming always normalized form:
+
+7. 
+(a)
+Derive the minimum and maximum absolute values of an ieee double
+precision floating point number (i.e. the largest representable
+number and the number closest to zero).
+
+(b)
+Show that 2^24 + 1 = 2^24 for an ieee single precision float.
+
+(c)
+Consider a 32-bit floating point system 
+
+     s X M X R^(e-E) 
+   with
+   s: sign (1 bit)
+   e: exponent (10 bits)
+   E: offset (=129)
+   R: base (=2)
+   M: mantissa (21 bits)
+
+  Encode the decimal value 111.875 in this architecture (ie show the bit pattern)
+
+8. Work out an estimate of the machine accuracy epsilon for ieee
+   single and double precision numbers, where epsilon is defined as
+   the "distance" between two representable numbers. More preciesly,
+   the machine accuracy is the smallest number that, when added to
+   1.0, produces a floating-point result that is different from 1.0.
+
+
+Matlab practice
+For the following supply source code and results
+
+9. Write a Matlab program matmult.m that compares the performance
+of a matrix-matrix product using loop indexing (as in C) vs. using
+Matlab's built-in matrix multiplication operator. Do this for a variety
+of matrix sizes and plot the resulting timings. Finally, compare the
+performance to an identical code in C (or your favorite non-interpreted
+language). Include a range of matrix sizes up to the largest that can
+be accommodated on your system.
+
+Linear Algebra
+
+10. Prove the following matrix properties (' denotes transpose)
+
+a. A(BC) = (AB)C
+b. A(B+C) = AB + AC
+c. That the transpose of a lower diagonal matrix is upper diagonal.
+d. (A+B)' = A' + B' 
+e. (AB)' = B'A'

@@ -1,0 +1,1 @@
+You could return the address of a local variable to determine where on the stack you currently are as a way to determine if you are close to using up all of the stack.  

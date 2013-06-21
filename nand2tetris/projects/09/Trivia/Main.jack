@@ -1,0 +1,15 @@
+class Main {
+
+    function void main() {
+        //var CircleDestruction circ;
+
+        //let circ = CircleDestruction.new();
+        //do circ.run();
+	//do circ.dispose();
+	var Trivia trivia;
+	let trivia=Trivia.new(5);
+	do trivia.run();
+	do trivia.dispose();
+        return;
+    }
+}

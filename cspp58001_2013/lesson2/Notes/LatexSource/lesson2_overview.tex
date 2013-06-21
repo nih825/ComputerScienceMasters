@@ -1,0 +1,86 @@
+\documentclass[11pt]{article}
+\usepackage{ulem}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+ 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  language=C,                % the language of the code
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,         
+           % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add a comment within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+\begin{document}
+\title{Lesson 2 outline} 
+\author{CSPP58001: Numerical Methods \\ TA: Kyle Gerard Felker}
+\date{\today}
+\maketitle
+
+\section{Homework clarifications}
+
+\begin{itemize}
+\item \#1 A reminder, we want the matrix \emph{that transforms your original matrix} upon multiplication to row echelon form, not the Gaussian eliminated matrix.
+
+\item \#9 -- we do not require that you time the largest possible matrix on your system, rather we want a range of matrix sizes --- the largest problem should take many seconds to a minute to Gaussian eliminate. 
+
+\item \#10 Proving these properties should be taken in a loose sense; we do not require a rigourous mathematics class proof. Feel free to show the properties are true for a general 3x3 matrix. 
+
+\end{itemize}
+\section{Back to Gaussian elimination...}
+What can go wrong with the naive Gaussian elimination algorithm?
+
+\begin{itemize}
+\item a pivot element could be zero $\rightarrow$ algorithm divides by zero and yields nonsense results
+
+\item ``small'' pivots can yield significant roundoff error on computers with finite precision variables
+\end{itemize}
+We have three strategies to contend with these algorithmic issues:
+
+\begin{enumerate}
+\item (Partial pivoting) Swap rows with row that contains largest absolute value pivot element among rows below pivot position
+
+\item (Scaled pivoting) Save as above but interpret ``largest" as largest relative to other elements in the row
+
+\item (Full pivoting) Look for largest pivot in any entry below current row and to the right of the current column. Swap rows and columns as necessary, while tracking the column changes in the solution vector.
+
+\end{enumerate}
+All strategies are heuristical, and they entail different computational costs. 
+
+\section{Floating point representation}
+See $\texttt{lesson2.pdf} $ and corresponding PowerPoint in the Dropbox to see the lecture contents regarding the use of floating point representation and its consequences for our numerical algorithms. 
+
+\section{Numerical methods for PDEs --- the heat equation}
+See  $\texttt{lesson2.pdf} $
+
+
+\end{document}

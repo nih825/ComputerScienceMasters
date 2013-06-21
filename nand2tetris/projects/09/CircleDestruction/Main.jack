@@ -1,0 +1,12 @@
+class Main {
+
+    function void main() {
+        var CircleDestruction circ;
+
+        let circ = CircleDestruction.new();
+        do circ.run();
+	do circ.dispose();
+
+        return;
+    }
+}

@@ -1,0 +1,4 @@
+While int const and const int declare the exact same thing with different 
+syntax I believe that const int is superior.  For a pointer if you declare
+int const * versus int * const they would mean completely different things
+and would be worse than missplacing the pointer referenece in const * int.
